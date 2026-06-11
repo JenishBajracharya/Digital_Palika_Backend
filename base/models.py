@@ -267,6 +267,7 @@ class ApangaIdentityCard(IdentityCardBase):
 
 
 
+
 class JanmaDarta(models.Model):
     id = models.AutoField(primary_key=True)
     full_name = models.CharField(max_length=255)
@@ -342,3 +343,126 @@ class file_chalani(models.Model):
     action = models.CharField(max_length=50)
 
      
+
+class Chalani(models.Model):
+
+    chalani_no = models.PositiveIntegerField(
+        unique=True
+    )
+
+    chalani_date = models.CharField(
+        max_length=20
+    )
+
+    # पत्रको किसिम
+    letter_type = models.CharField(
+        max_length=255
+    )
+
+    # पत्र बुज्ने शाखा
+    receiving_branch = models.CharField(
+        max_length=255
+    )
+
+    # पत्र पाउने कार्यालय वा व्यक्तिको नाम
+    receiver_name = models.CharField(
+        max_length=255
+    )
+
+    # पत्र पाउने कार्यालय वा व्यक्तिको ठेगाना
+    receiver_address = models.TextField()
+
+    # विषय
+    subject = models.TextField()
+
+    # फाइल
+    attachment = models.FileField(
+        upload_to="chalani/",
+        blank=True,
+        null=True
+    )
+
+    # बोदार्थ
+    bodartha = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    # कैफियत
+    remarks = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    class Meta:
+        ordering = ["-chalani_no"]
+
+    def __str__(self):
+        return f"Chalani #{self.chalani_no}"
+
+class KothaNumber(models.Model):
+    """
+    Digital File System - Kotha Number
+    """
+
+    kotha_no = models.CharField(
+        max_length=100,
+        unique=True,
+        verbose_name="Kotha No."
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    class Meta:
+        db_table = "kotha_number"
+        ordering = ["kotha_no"]
+        verbose_name = "Kotha Number"
+        verbose_name_plural = "Kotha Numbers"
+
+    def __str__(self):
+        return self.kotha_no
+    
+class AarthikBarsa(models.Model):
+    """
+    Digital File System - Aarthik Barsa
+    """
+
+    aarthik_barsa = models.CharField(
+        max_length=100,
+        unique=True,
+        verbose_name="Aarthik Barsa"
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    class Meta:
+        db_table = "aarthik_barsa"
+        ordering = ["aarthik_barsa"]
+        verbose_name = "Aarthik Barsa"
+        verbose_name_plural = "Aarthik Barsa"
+
+    def __str__(self):
+        return self.aarthik_barsa
+    
+    
+

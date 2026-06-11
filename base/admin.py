@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+
 from .models import (
     MainCategory,
     SubCategory,
@@ -12,6 +13,9 @@ from .models import (
     JanmaDarta, mrituDarta,biwahaDarta, migration_suchana, fileBhitra, file_prakar, rayak_khand_no, file_record, file_chalani
    
 )
+
+from .models import *
+
 
 
 @admin.register(MainCategory)
@@ -69,6 +73,7 @@ class ApangaIdentityCardAdmin(BaseIdentityCardAdmin):
     search_fields = BaseIdentityCardAdmin.search_fields + ("citizenship_no",)
 
 
+
 @admin.register(Darta)
 class DartaAdmin(admin.ModelAdmin):
     list_display = (
@@ -123,4 +128,78 @@ admin.site.register(rayak_khand_no)
 admin.site.register(file_record)
 admin.site.register(file_chalani)
 
+
+
+@admin.register(Chalani)
+class ChalaniAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "chalani_no",
+        "chalani_date",
+        "letter_type",
+        "receiving_branch",
+        "receiver_name",
+        "created_at",
+    )
+
+    search_fields = (
+        "chalani_no",
+        "subject",
+        "receiver_name",
+                "letter_type",
+        "receiving_branch",
+    )
+
+    list_filter = (
+        "letter_type",
+        "receiving_branch",
+        "created_at",
+    )
+
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+    )
+    
+@admin.register(KothaNumber)
+class KothaNumberAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "kotha_no",
+        "created_at",
+    )
+
+    search_fields = (
+        "kotha_no",
+    )
+
+    ordering = (
+        "kotha_no",
+    )
+
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+    )
+    
+@admin.register(AarthikBarsa)
+class AarthikBarsaAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "aarthik_barsa",
+        "created_at",
+    )
+
+    search_fields = (
+        "aarthik_barsa",
+    )
+
+    ordering = (
+        "aarthik_barsa",
+    )
+
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+    )
 
