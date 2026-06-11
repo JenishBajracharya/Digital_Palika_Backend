@@ -19,6 +19,103 @@ class SubCategory(models.Model):
         return self.name
 
 
+class Darta(models.Model):
+    main_category = models.ForeignKey(
+        MainCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="dartas",
+    )
+    darta_number = models.PositiveIntegerField(unique=True)
+    darta_date = models.DateField()
+    khata_number = models.CharField(max_length=100, blank=True)
+    pathaune = models.CharField(max_length=255, blank=True)
+    current_area_branch = models.CharField(max_length=255, blank=True)
+    current_branch_members = models.CharField(max_length=255, blank=True)
+    kaifiyat = models.TextField(blank=True)
+    subject = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
+    upload = models.FileField(upload_to="darta/uploads/", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Darta {self.darta_number} - {self.subject}"
+
+
+class Pariyojana(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('active', 'Active'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    ]
+
+    main_category = models.ForeignKey(
+        MainCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="pariyojanas",
+    )
+    sub_category = models.ForeignKey(
+        SubCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="pariyojanas",
+    )
+    project_name = models.CharField(max_length=255)
+    project_code = models.CharField(max_length=100, unique=True)
+    project_date = models.DateField()
+    project_start_date = models.DateField(blank=True, null=True)
+    project_end_date = models.DateField(blank=True, null=True)
+    project_description = models.TextField(blank=True)
+    project_budget = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
+    project_location = models.CharField(max_length=255, blank=True)
+    project_manager = models.CharField(max_length=255, blank=True)
+    project_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    project_documents = models.FileField(upload_to="pariyojana/documents/", blank=True, null=True)
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.project_name} ({self.project_code})"
+
+
+class RayakNo(models.Model):
+    main_category = models.ForeignKey(
+        MainCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="rayak_nos",
+    )
+    sub_category = models.ForeignKey(
+        SubCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="rayak_nos",
+    )
+    rayak_no = models.CharField(max_length=100, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Rayak No"
+        verbose_name_plural = "Rayak Nos"
+
+    def __str__(self):
+        return self.rayak_no
+
+
 class IdentityCardBase(models.Model):
 
     category = models.ForeignKey(
@@ -164,3 +261,6 @@ class ApangaIdentityCard(IdentityCardBase):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
+

@@ -1,10 +1,14 @@
 from django.db import models
+from rest_framework import serializers
 
 from .models import (
     ApangaIdentityCard,
     BalbalikaIdentityCard,
+    Darta,
     MainCategory,
     MahilaIdentityCard,
+    Pariyojana,
+    RayakNo,
 )
 
 
@@ -53,3 +57,21 @@ def identity_card_schema() -> list[dict]:
         model_schema(BalbalikaIdentityCard),
         model_schema(ApangaIdentityCard),
     ]
+
+
+class DartaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Darta
+        fields = "__all__"
+
+
+class PariyojanaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pariyojana
+        fields = "__all__"
+
+
+class RayakNoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RayakNo
+        fields = "__all__"
