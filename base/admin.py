@@ -9,6 +9,8 @@ from .models import (
     MahilaIdentityCard,
     BalbalikaIdentityCard,
     ApangaIdentityCard,
+    JanmaDarta, mrituDarta,biwahaDarta, migration_suchana, fileBhitra, file_prakar, rayak_khand_no, file_record, file_chalani
+   
 )
 
 
@@ -109,5 +111,16 @@ class RayakNoAdmin(admin.ModelAdmin):
     list_filter = ("main_category", "sub_category")
     search_fields = ("rayak_no",)
     readonly_fields = ("created_at", "updated_at")
+
+
+# admin.site.register(JanmaDarta)
+admin.site.register(mrituDarta)
+admin.site.register(biwahaDarta)
+admin.site.register(migration_suchana)
+admin.site.register(fileBhitra)
+admin.site.register(file_prakar)
+admin.site.register(rayak_khand_no)
+admin.site.register(file_record)
+admin.site.register(file_chalani)
 
 

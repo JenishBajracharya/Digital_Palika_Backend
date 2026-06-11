@@ -264,3 +264,81 @@ class ApangaIdentityCard(IdentityCardBase):
 
 
 
+
+
+
+class JanmaDarta(models.Model):
+    id = models.AutoField(primary_key=True)
+    full_name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    sifaris_prakar = models.CharField(max_length=255)
+    contact_no = models.CharField(max_length=20)
+    status = models.CharField(max_length=50)
+
+
+class mrituDarta(models.Model):
+    id = models.AutoField(primary_key=True)
+    full_name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    sifaris_prakar = models.CharField(max_length=255)
+    contact_no = models.CharField(max_length=20)
+    status = models.CharField(max_length=50)
+
+class biwahaDarta(models.Model):
+    id = models.AutoField(primary_key=True)
+    full_name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    sifaris_prakar = models.CharField(max_length=255)
+    contact_no = models.CharField(max_length=20)
+    status = models.CharField(max_length=50)
+
+class migration_suchana(models.Model):
+    id = models.AutoField(primary_key=True)
+    applicants_name = models.CharField(max_length=255)
+    application_date = models.DateField()
+    citizen_no = models.CharField(max_length=255)
+    current_ward = models.IntegerField(max_length=20)
+    verified = models.CharField(max_length=50)
+    action = models.CharField(max_length=50)
+
+
+class fileBhitra(models.Model):
+    id = models.AutoField(primary_key=True)
+    file_bhitra = models.CharField(max_length=255)
+    action = models.CharField(max_length=50)
+    
+
+class file_prakar(models.Model):
+    id = models.AutoField(primary_key=True)
+    file_prakar = models.CharField(max_length=255)
+    action = models.CharField(max_length=50)
+
+class rayak_khand_no(models.Model):
+    id = models.AutoField(primary_key=True)
+    rayak_khand_no = models.IntegerField(max_length=255)
+    action = models.CharField(max_length=50)
+
+class file_record(models.Model):
+    id = models.AutoField(primary_key=True)
+    record_code = models.CharField(max_length=255)
+    arthik_barsa = models.DateTimeField()
+    file_prakar = models.ForeignKey(file_prakar, on_delete=models.CASCADE)
+    raik_khand = models.CharField(max_length=255)
+    raik_number = models.CharField(max_length=255)
+    file_bhitra = models.ForeignKey(fileBhitra, on_delete=models.CASCADE)
+    kotha_no = models.CharField(max_length=255)
+    pariyojana = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to="identity_cards/photos/")
+    action = models.CharField(max_length=50)
+
+
+class file_chalani(models.Model):
+    id = models.AutoField(primary_key=True)
+    file_record = models.ForeignKey(file_record, on_delete=models.CASCADE)
+    chalani_bujhiline = models.CharField(max_length=255)
+    chalani_date = models.DateTimeField()
+    chalani_firta_miti = models.DateTimeField()
+    chalani_status = models.CharField(max_length=50)
+    action = models.CharField(max_length=50)
+
+     
