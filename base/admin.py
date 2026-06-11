@@ -5,6 +5,7 @@ from .models import (
     MahilaIdentityCard,
     BalbalikaIdentityCard,
     ApangaIdentityCard,
+    JanmaDarta, mrituDarta,biwahaDarta, migration_suchana, fileBhitra, file_prakar, rayak_khand_no, file_record, file_chalani
    
 )
 
@@ -56,4 +57,14 @@ class ApangaIdentityCardAdmin(BaseIdentityCardAdmin):
     list_filter = BaseIdentityCardAdmin.list_filter + ("gender", "blood_group")
     search_fields = BaseIdentityCardAdmin.search_fields + ("citizenship_no",)
 
+
+# admin.site.register(JanmaDarta)
+admin.site.register(mrituDarta)
+admin.site.register(biwahaDarta)
+admin.site.register(migration_suchana)
+admin.site.register(fileBhitra)
+admin.site.register(file_prakar)
+admin.site.register(rayak_khand_no)
+admin.site.register(file_record)
+admin.site.register(file_chalani)
 

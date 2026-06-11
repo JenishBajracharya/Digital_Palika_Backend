@@ -6,6 +6,17 @@ from .models import (
     BalbalikaIdentityCard,
     MainCategory,
     MahilaIdentityCard,
+    JanmaDarta,
+    file_record,
+    mrituDarta,
+    biwahaDarta,
+    migration_suchana,
+    fileBhitra,
+    file_prakar,
+    rayak_khand_no,
+    file_record,
+    file_chalani,
+    
     
 )
 
@@ -57,3 +68,51 @@ def identity_card_schema() -> list[dict]:
     ]
 
 
+
+
+class JanmaDartaSerializer(serializers.ModelSerializer):
+   class Meta:
+       models = JanmaDarta
+       fields = "__all__"
+
+
+
+class mrituDartaSerializer(serializers.ModelSerializer):
+   class Meta:
+       models = mrituDarta
+       fields = "__all__"
+
+class biwahaDartaSerializer(serializers.ModelSerializer):
+   class Meta:
+       models = biwahaDarta
+       fields = "__all__"
+
+class migration_suchanaSerializer(serializers.ModelSerializer):
+   class Meta:
+       models = migration_suchana
+       fields = "__all__"
+
+class fileBhitraSerializer(serializers.ModelSerializer):
+   class Meta:
+       models = fileBhitra
+       fields = "__all__"
+
+class file_prakarSerializer(serializers.ModelSerializer):
+   class Meta:
+       models = file_prakar
+       fields = "__all__"
+
+class rayak_khand_no_Serializer(serializers.ModelSerializer):
+   class Meta:
+       models = rayak_khand_no
+       fields = "__all__"
+
+class file_recordSerializer(serializers.ModelSerializer):
+   class Meta:
+       models = file_record
+       fields = "__all__"
+
+class file_chalaniSerializer(serializers.ModelSerializer):
+   class Meta:
+       models = file_chalani
+       fields = "__all__"
