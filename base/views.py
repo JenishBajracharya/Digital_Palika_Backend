@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from rest_framework.viewsets import ModelViewSet
 
 from .models import MainCategory
 from .serializers import (
@@ -23,3 +24,5 @@ def category_form(request, category_id):
             "identity_card_schemas": schema,
         }
     )
+
+

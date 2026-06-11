@@ -5,6 +5,7 @@ from .models import (
     MahilaIdentityCard,
     BalbalikaIdentityCard,
     ApangaIdentityCard,
+   
 )
 
 
@@ -54,3 +55,5 @@ class ApangaIdentityCardAdmin(BaseIdentityCardAdmin):
     )
     list_filter = BaseIdentityCardAdmin.list_filter + ("gender", "blood_group")
     search_fields = BaseIdentityCardAdmin.search_fields + ("citizenship_no",)
+
+
