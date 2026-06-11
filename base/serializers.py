@@ -1,11 +1,6 @@
 from django.db import models
-
-from .models import (
-    ApangaIdentityCard,
-    BalbalikaIdentityCard,
-    MainCategory,
-    MahilaIdentityCard,
-)
+from rest_framework import serializers
+from .models import *
 
 
 def CategorySerializer(category: MainCategory) -> dict:
@@ -53,3 +48,21 @@ def identity_card_schema() -> list[dict]:
         model_schema(BalbalikaIdentityCard),
         model_schema(ApangaIdentityCard),
     ]
+
+class ChalaniSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Chalani
+        fields = "__all__"
+
+class KothaNumberSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = KothaNumber
+        fields = "__all__"
+
+class AarthikBarsaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AarthikBarsa
+        fields = "__all__"

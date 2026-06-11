@@ -1,13 +1,32 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
+from .views import  *
 
-from . import views
 
+router = DefaultRouter()
 
-urlpatterns = [
-    path("categories/", views.category_list, name="category-list"),
-    path(
-        "categories/<int:category_id>/form/",
-        views.category_form,
-        name="category-form",
-    ),
-]
+router.register(
+    r"categories",
+    CategoryViewSet,
+    basename="category"
+)
+router.register(
+    r"chalani",
+    ChalaniViewSet,
+    basename="chalani"
+)
+
+router.register(
+    r"kotha-number",
+    KothaNumberViewSet,
+    basename="kotha-number"
+)
+
+router.register(
+    r"aarthik-barsa",
+    AarthikBarsaViewSet,
+    basename="aarthik-barsa"
+)
+
+urlpatterns = router.urls
+
