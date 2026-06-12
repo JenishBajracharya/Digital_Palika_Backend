@@ -29,13 +29,67 @@ from .models import (
 
 from .models import *
 
+from rest_framework import serializers
+from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+
+User = get_user_model()
+
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    phone = serializers.CharField(source="phone_number", required=False, allow_blank=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password', 'phone']
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data.get('email'),
+            password=validated_data['password'],
+            phone_number=validated_data.get('phone_number')
+        )
+        return user
 
 
-def CategorySerializer(category: MainCategory) -> dict:
-    return {
-        "id": category.id,
-        "name": category.name,
-    }
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        username = attrs.get("username")
+        password = attrs.get("password")
+        request = self.context.get("request")
+
+        user = authenticate(request=request, username=username, password=password)
+
+        if not user:
+            raise serializers.ValidationError("Invalid username or password.")
+
+        if not user.is_active:
+            raise serializers.ValidationError("This user account is disabled.")
+
+        refresh = RefreshToken.for_user(user)
+
+        return {
+            "user": {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "phone": getattr(user, "phone_number", None),
+                "role": getattr(user, "role", None),
+            },
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        }
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MainCategory
+        fields = ["id", "name"]
 
 
 def _serialize_field(field: models.Field) -> dict:
@@ -97,52 +151,70 @@ class RayakNoSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class MahilaIdentityCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MahilaIdentityCard
+        fields = "__all__"
+
+
+class BalbalikaIdentityCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BalbalikaIdentityCard
+        fields = "__all__"
+
+
+class ApangaIdentityCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ApangaIdentityCard
+        fields = "__all__"
+
+
 
 class JanmaDartaSerializer(serializers.ModelSerializer):
    class Meta:
-       models = JanmaDarta
+       model = JanmaDarta
        fields = "__all__"
 
 
 
 class mrituDartaSerializer(serializers.ModelSerializer):
    class Meta:
-       models = mrituDarta
+       model = mrituDarta
        fields = "__all__"
 
 class biwahaDartaSerializer(serializers.ModelSerializer):
    class Meta:
-       models = biwahaDarta
+       model = biwahaDarta
        fields = "__all__"
 
 class migration_suchanaSerializer(serializers.ModelSerializer):
    class Meta:
-       models = migration_suchana
+       model = migration_suchana
        fields = "__all__"
 
 class fileBhitraSerializer(serializers.ModelSerializer):
    class Meta:
-       models = fileBhitra
+       model = fileBhitra
        fields = "__all__"
 
 class file_prakarSerializer(serializers.ModelSerializer):
    class Meta:
-       models = file_prakar
+       model = file_prakar
        fields = "__all__"
 
 class rayak_khand_no_Serializer(serializers.ModelSerializer):
    class Meta:
-       models = rayak_khand_no
+       model = rayak_khand_no
        fields = "__all__"
 
 class file_recordSerializer(serializers.ModelSerializer):
    class Meta:
-       models = file_record
+       model = file_record
        fields = "__all__"
 
 class file_chalaniSerializer(serializers.ModelSerializer):
    class Meta:
-       models = file_chalani
+       model = file_chalani
        fields = "__all__"
 
 class ChalaniSerializer(serializers.ModelSerializer):

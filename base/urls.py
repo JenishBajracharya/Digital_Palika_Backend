@@ -1,70 +1,41 @@
-from django.urls import path
+from django.urls import include, path
+
 from rest_framework.routers import DefaultRouter
-from .views import  *
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 from . import views
 
 
+router = DefaultRouter()
+router.register("categories", views.CategoryViewSet, basename="category")
+router.register("janma-darta", views.JanmaDartaViewSet, basename="janma-darta")
+router.register("mritu-darta", views.MrituDartaViewSet, basename="mritu-darta")
+router.register("biwaha-darta", views.BiwahaDartaViewSet, basename="biwaha-darta")
+router.register("migration-suchana", views.MigrationSuchanaViewSet, basename="migration-suchana")
+router.register("file-bhitra", views.FileBhitraViewSet, basename="file-bhitra")
+router.register("file-prakar", views.FilePrakarViewSet, basename="file-prakar")
+router.register("rayak-khand-no", views.RayakKhandNoViewSet, basename="rayak-khand-no")
+router.register("rayak_khand_no", views.RayakKhandNoViewSet, basename="rayak-khand-no-legacy")
+router.register("file-record", views.FileRecordViewSet, basename="file-record")
+router.register("file-chalani", views.FileChalaniViewSet, basename="file-chalani")
+router.register("darta", views.DartaViewSet, basename="darta")
+router.register("pariyojana", views.PariyojanaViewSet, basename="pariyojana")
+router.register("rayak-no", views.RayakNoViewSet, basename="rayak-no")
+router.register("mahila-identity-cards", views.MahilaIdentityCardViewSet, basename="mahila-identity-card")
+router.register("balbalika-identity-cards", views.BalbalikaIdentityCardViewSet, basename="balbalika-identity-card")
+router.register("apanga-identity-cards", views.ApangaIdentityCardViewSet, basename="apanga-identity-card")
+router.register("chalani", views.ChalaniViewSet, basename="chalani")
+router.register("kotha-number", views.KothaNumberViewSet, basename="kotha-number")
+router.register("aarthik-barsa", views.AarthikBarsaViewSet, basename="aarthik-barsa")
+
 
 urlpatterns = [
-    path("categories/", views.category_list, name="category-list"),
-    path(
-        "categories/<int:category_id>/form/",
-        views.category_form,
-        name="category-form",
-    ),
-    path("janma-darta/", views.janma_darta_form.as_view({"get": "list", "post": "create"})),
-    path("janma-darta/<int:pk>/", views.janma_darta_form.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
-
-    path("mritu-darta/", views.mrituDartaViewSet.as_view({"get": "list", "post": "create"})),
-    path("mritu-darta/<int:pk>/", views.mrituDartaViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
-    
-    path("biwaha-darta/", views.biwahaDartaViewSet.as_view({"get": "list", "post": "create"})),
-    path("biwaha-darta/<int:pk>/", views.biwahaDartaViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
-    
-    path("migration-suchana/", views.migration_suchanaViewSet.as_view({"get": "list", "post": "create"})),
-    path("migration-suchana/<int:pk>/", views.migration_suchanaViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
-    
-    path("file-bhitra/", views.fileBhitraViewSet.as_view({"get": "list", "post": "create"})),
-    path("file-bhitra/<int:pk>/", views.fileBhitraViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
-    
-    path("file-prakar/", views.file_prakarViewSet.as_view({"get": "list", "post": "create"})),
-    path("file-prakar/<int:pk>/", views.file_prakarViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
-    
-    path("rayak_khand_no/", views.rayak_khand_no_ViewSet.as_view({"get": "list", "post": "create"})),
-    path("rayak_khand_no/<int:pk>/", views.rayak_khand_no_ViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
-    
-    path("file-record/", views.file_recordViewSet.as_view({"get": "list", "post": "create"})),
-    path("file-record/<int:pk>/", views.file_recordViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
-    
-    path("file-chalani/", views.file_chalaniViewSet.as_view({"get": "list", "post": "create"})),
-    path("file-chalani/<int:pk>/", views.file_chalaniViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    path("", include(router.urls)),
+    path("register/", views.RegisterView.as_view(), name="register"),
+    path("login/", views.LoginView.as_view(), name="login"),
+    path("auth/register/", views.RegisterView.as_view(), name="auth-register"),
+    path("auth/login/", views.LoginView.as_view(), name="auth-login"),
+    path("auth/token/", TokenObtainPairView.as_view(), name="token-obtain-pair"),
+    path("auth/token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
+    path("auth/", include("rest_framework.urls")),
 ]
-
-
-router = DefaultRouter()
-
-router.register(
-    r"categories",
-    CategoryViewSet,
-    basename="category"
-)
-router.register(
-    r"chalani",
-    ChalaniViewSet,
-    basename="chalani"
-)
-
-router.register(
-    r"kotha-number",
-    KothaNumberViewSet,
-    basename="kotha-number"
-)
-
-router.register(
-    r"aarthik-barsa",
-    AarthikBarsaViewSet,
-    basename="aarthik-barsa"
-)
-
-urlpatterns = router.urls
-

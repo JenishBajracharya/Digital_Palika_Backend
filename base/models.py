@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class MainCategory(models.Model):
     name = models.CharField(max_length=100)
 
@@ -17,8 +16,26 @@ class SubCategory(models.Model):
 
     def __str__(self):
         return self.name
+    
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 
+class User(AbstractUser):
+    phone = models.CharField(max_length=15, null=True, blank=True)
+    
+    role = models.CharField(
+        max_length=20,
+        choices=[
+            ("admin", "Admin"),
+            ("staff", "Staff"),
+            ("citizen", "Citizen"),
+        ],
+        default="citizen"
+    )
+    def __str__(self):
+        return self.username
+    
 class Darta(models.Model):
     main_category = models.ForeignKey(
         MainCategory,
@@ -298,7 +315,7 @@ class migration_suchana(models.Model):
     applicants_name = models.CharField(max_length=255)
     application_date = models.DateField()
     citizen_no = models.CharField(max_length=255)
-    current_ward = models.IntegerField(max_length=20)
+    current_ward = models.IntegerField()
     verified = models.CharField(max_length=50)
     action = models.CharField(max_length=50)
 
@@ -316,7 +333,7 @@ class file_prakar(models.Model):
 
 class rayak_khand_no(models.Model):
     id = models.AutoField(primary_key=True)
-    rayak_khand_no = models.IntegerField(max_length=255)
+    rayak_khand_no = models.IntegerField()
     action = models.CharField(max_length=50)
 
 class file_record(models.Model):

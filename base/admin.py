@@ -10,12 +10,18 @@ from .models import (
     MahilaIdentityCard,
     BalbalikaIdentityCard,
     ApangaIdentityCard,
-    JanmaDarta, mrituDarta,biwahaDarta, migration_suchana, fileBhitra, file_prakar, rayak_khand_no, file_record, file_chalani
-   
+    JanmaDarta,
+    mrituDarta,
+    biwahaDarta,
+    migration_suchana,
+    fileBhitra,
+    file_prakar,
+    rayak_khand_no,
+    file_record,
+    file_chalani,
 )
 
 from .models import *
-
 
 
 @admin.register(MainCategory)
