@@ -1,6 +1,28 @@
 from django.db import models
 
 
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    phone = models.CharField(max_length=15, blank=True, null=True)
+
+    ROLE_CHOICES = (
+        ("admin", "Admin"),
+        ("staff", "Staff"),
+        ("citizen", "Citizen"),
+    )
+
+    role = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICES,
+        default="citizen"
+    )
+
+    def __str__(self):
+        return self.username
+
 class MainCategory(models.Model):
     name = models.CharField(max_length=100)
 

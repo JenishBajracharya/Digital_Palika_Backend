@@ -30,12 +30,55 @@ from .models import (
 from .models import *
 
 
+from rest_framework import serializers
+from .models import User
 
-def CategorySerializer(category: MainCategory) -> dict:
-    return {
-        "id": category.id,
-        "name": category.name,
-    }
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "phone",
+            "role",
+        ]
+
+from rest_framework import serializers
+from .models import User
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = [
+            "username",
+            "email",
+            "password",
+            "phone",
+            "role",
+        ]
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data["username"],
+            email=validated_data.get("email"),
+            password=validated_data["password"],
+            phone=validated_data.get("phone"),
+            role=validated_data.get("role", "citizen"),
+        )
+        return user
+    
+    
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MainCategory
+        fields = "__all__"
 
 
 def _serialize_field(field: models.Field) -> dict:
@@ -100,49 +143,49 @@ class RayakNoSerializer(serializers.ModelSerializer):
 
 class JanmaDartaSerializer(serializers.ModelSerializer):
    class Meta:
-       models = JanmaDarta
+       model = JanmaDarta
        fields = "__all__"
 
 
 
 class mrituDartaSerializer(serializers.ModelSerializer):
    class Meta:
-       models = mrituDarta
+       model = mrituDarta
        fields = "__all__"
 
 class biwahaDartaSerializer(serializers.ModelSerializer):
    class Meta:
-       models = biwahaDarta
+       model = biwahaDarta
        fields = "__all__"
 
 class migration_suchanaSerializer(serializers.ModelSerializer):
    class Meta:
-       models = migration_suchana
+       model = migration_suchana
        fields = "__all__"
 
 class fileBhitraSerializer(serializers.ModelSerializer):
    class Meta:
-       models = fileBhitra
+       model = fileBhitra
        fields = "__all__"
 
 class file_prakarSerializer(serializers.ModelSerializer):
    class Meta:
-       models = file_prakar
+       model = file_prakar
        fields = "__all__"
 
 class rayak_khand_no_Serializer(serializers.ModelSerializer):
    class Meta:
-       models = rayak_khand_no
+       model = rayak_khand_no
        fields = "__all__"
 
 class file_recordSerializer(serializers.ModelSerializer):
    class Meta:
-       models = file_record
+       model = file_record
        fields = "__all__"
 
 class file_chalaniSerializer(serializers.ModelSerializer):
    class Meta:
-       models = file_chalani
+       model = file_chalani
        fields = "__all__"
 
 class ChalaniSerializer(serializers.ModelSerializer):

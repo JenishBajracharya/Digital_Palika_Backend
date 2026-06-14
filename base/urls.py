@@ -66,5 +66,5 @@ router.register(
     basename="aarthik-barsa"
 )
 
-urlpatterns = router.urls
+urlpatterns += router.urls
 

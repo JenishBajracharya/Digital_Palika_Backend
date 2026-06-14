@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 
@@ -37,7 +38,18 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 
+from rest_framework import generics
+from .models import User
+from .serializers import UserSerializer, RegisterSerializer
 
+
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class RegisterView(generics.CreateAPIView):
+    serializer_class = RegisterSerializer
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = MainCategory.objects.all()
@@ -55,6 +67,12 @@ class CategoryViewSet(viewsets.ModelViewSet):
             },
             "identity_card_schemas": schema
         })
+
+
+def category_list(request):
+    categories = MainCategory.objects.all()
+    serializer = CategorySerializer(categories, many=True)
+    return JsonResponse(serializer.data, safe=False)
 
 
 
