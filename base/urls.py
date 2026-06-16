@@ -94,13 +94,12 @@ urlpatterns = [
 
     path('notifications/devices/', DeviceTokenListView.as_view(), name='device-list-create'),
     path('notifications/users/', UserDropdownListView.as_view(), name='user-dropdown-list'),
-    
-<<<<<<< HEAD
+
     # Trigger functions
     path('notifications/broadcast/', BroadcastNotificationView.as_view(), name='send-broadcast'),
     path('notifications/test-single/', TestNotificationView.as_view(), name='send-test-single'),
    
-=======
+
     path("biwaha-darta/", views.biwahaDartaViewSet.as_view({"get": "list", "post": "create"})),
     path("biwaha-darta/<int:pk>/", views.biwahaDartaViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
     
@@ -139,7 +138,7 @@ urlpatterns = [
     
     path("sadasya-thapnuhos/", views.sadasya_thapnuhosViewSet.as_view({"get": "list", "post": "create"})),
     path("sadasya-thapnuhos/<int:pk>/", views.sadasya_thapnuhosViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
->>>>>>> jenish
+
 ]
 
 router = DefaultRouter()

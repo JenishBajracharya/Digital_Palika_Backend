@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 
-from rest_framework import generics
+
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 from .models import MainCategory, Darta, Pariyojana, RayakNo

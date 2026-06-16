@@ -211,8 +211,7 @@ class AarthikBarsaSerializer(serializers.ModelSerializer):
         model = AarthikBarsa
         fields = "__all__"
 
-<<<<<<< HEAD
-from rest_framework import serializers
+
 from .models import Province, District, Municipality, Ward
 
 
@@ -254,7 +253,7 @@ class WardSerializer(serializers.ModelSerializer):
         model = Ward
         fields = "__all__"
 
-from rest_framework import serializers
+
 from .models import (
     Farmer, Land, Crop, CropProduction, Inventory, 
     Livestock, SoilReport, Sale, CropDisease, WeatherData, Recommendation
@@ -358,7 +357,7 @@ class TestNotificationSerializer(serializers.Serializer):
     fcm_token = serializers.CharField(required=True)
     title = serializers.CharField(max_length=255, required=True)
     body = serializers.CharField(required=True)
-=======
+
 class karmachariSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -395,4 +394,3 @@ class sadasya_thapnuhosSerializer(serializers.ModelSerializer):
         model = sadasya_thapnuhos
         fields = "__all__"
 
->>>>>>> jenish
