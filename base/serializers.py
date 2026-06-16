@@ -22,7 +22,12 @@ from .models import (
     rayak_khand_no,
     file_record,
     file_chalani,
-    
+    karmachari,
+    woda,
+    pratinidhi,
+    patraKoKisim,
+    sakha_thapnuhos,
+    sadasya_thapnuhos,
     
 
 )
@@ -30,7 +35,7 @@ from .models import (
 from .models import *
 
 
-from rest_framework import serializers
+
 from .models import User
 
 
@@ -47,7 +52,7 @@ class UserSerializer(serializers.ModelSerializer):
             "role",
         ]
 
-from rest_framework import serializers
+
 from .models import User
 
 
@@ -206,6 +211,7 @@ class AarthikBarsaSerializer(serializers.ModelSerializer):
         model = AarthikBarsa
         fields = "__all__"
 
+<<<<<<< HEAD
 from rest_framework import serializers
 from .models import Province, District, Municipality, Ward
 
@@ -352,3 +358,41 @@ class TestNotificationSerializer(serializers.Serializer):
     fcm_token = serializers.CharField(required=True)
     title = serializers.CharField(max_length=255, required=True)
     body = serializers.CharField(required=True)
+=======
+class karmachariSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = karmachari
+        fields = "__all__"
+
+class wodaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = woda
+        fields = "__all__"
+
+class pratinidhiSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = pratinidhi
+        fields = "__all__"
+
+class patraKoKisimSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = patraKoKisim
+        fields = "__all__"
+
+class sakha_thapnuhosSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = sakha_thapnuhos
+        fields = "__all__"
+
+class sadasya_thapnuhosSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = sadasya_thapnuhos
+        fields = "__all__"
+
+>>>>>>> jenish

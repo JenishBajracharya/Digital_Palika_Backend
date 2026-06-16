@@ -365,6 +365,64 @@ class file_chalani(models.Model):
     chalani_status = models.CharField(max_length=50)
     action = models.CharField(max_length=50)
 
+
+
+# Settings model fields
+class karmachari(models.Model):
+    id = models.AutoField(primary_key=True)
+    ward = models.CharField(max_length=255)
+    prakar = models.CharField(max_length=255)
+    full_name = models.CharField(max_length=255)
+    padh = models.CharField(max_length=20)
+    samparka = models.IntegerField()
+    photo = models.ImageField(upload_to="identity_cards/photos/")
+    action = models.CharField(max_length=50)
+
+
+class woda(models.Model):
+    id = models.AutoField(primary_key=True)
+    woda_name = models.CharField(max_length=255)
+    woda_no = models.IntegerField(max_length=255)
+    address = models.CharField(max_length=255)
+    contact_no = models.CharField(max_length=20)
+    karya = models.CharField(max_length=255)
+    nagarpalika = models.CharField(max_length=50)
+
+
+class pratinidhi(models.Model):
+    id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=255)
+    middle_name = models.CharField(max_length=255, blank=True)
+    last_name = models.CharField(max_length=255)
+    padh = models.CharField(max_length=255)
+    gender = models.CharField(max_length=20)
+    dateOfBirth = models.DateField()    
+    contact_no = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to="identity_cards/photos/")
+    rastriya_parichaya_patra = models.CharField(max_length=255)
+    woda = models.ForeignKey(woda, on_delete=models.CASCADE)
+    action = models.CharField(max_length=50)
+
+class patraKoKisim(models.Model):
+    id = models.AutoField(primary_key=True)
+    patra_ko_kisim = models.CharField(max_length=255)
+    action = models.CharField(max_length=50)
+
+class sakha_thapnuhos(models.Model):
+    id = models.AutoField(primary_key=True)
+    sakha = models.CharField(max_length=255)
+    karya = models.CharField(max_length=50)
+
+class sadasya_thapnuhos(models.Model):
+    id = models.AutoField(primary_key=True)
+    sadasya = models.CharField(max_length=255)
+    action = models.CharField(max_length=50)
+
+
+
+
+
+
      
 
 class Chalani(models.Model):

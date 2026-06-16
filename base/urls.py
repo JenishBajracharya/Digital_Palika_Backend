@@ -95,10 +95,51 @@ urlpatterns = [
     path('notifications/devices/', DeviceTokenListView.as_view(), name='device-list-create'),
     path('notifications/users/', UserDropdownListView.as_view(), name='user-dropdown-list'),
     
+<<<<<<< HEAD
     # Trigger functions
     path('notifications/broadcast/', BroadcastNotificationView.as_view(), name='send-broadcast'),
     path('notifications/test-single/', TestNotificationView.as_view(), name='send-test-single'),
    
+=======
+    path("biwaha-darta/", views.biwahaDartaViewSet.as_view({"get": "list", "post": "create"})),
+    path("biwaha-darta/<int:pk>/", views.biwahaDartaViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("migration-suchana/", views.migration_suchanaViewSet.as_view({"get": "list", "post": "create"})),
+    path("migration-suchana/<int:pk>/", views.migration_suchanaViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("file-bhitra/", views.fileBhitraViewSet.as_view({"get": "list", "post": "create"})),
+    path("file-bhitra/<int:pk>/", views.fileBhitraViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("file-prakar/", views.file_prakarViewSet.as_view({"get": "list", "post": "create"})),
+    path("file-prakar/<int:pk>/", views.file_prakarViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("rayak_khand_no/", views.rayak_khand_no_ViewSet.as_view({"get": "list", "post": "create"})),
+    path("rayak_khand_no/<int:pk>/", views.rayak_khand_no_ViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("file-record/", views.file_recordViewSet.as_view({"get": "list", "post": "create"})),
+    path("file-record/<int:pk>/", views.file_recordViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("file-chalani/", views.file_chalaniViewSet.as_view({"get": "list", "post": "create"})),
+    path("file-chalani/<int:pk>/", views.file_chalaniViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("karmachari/", views.karmachariViewSet.as_view({"get": "list", "post": "create"})),
+    path("karmachari/<int:pk>/", views.karmachariViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+
+    path("woda/", views.wodaViewSet.as_view({"get": "list", "post": "create"})),
+    path("woda/<int:pk>/", views.wodaViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("pratinidhi/", views.pratinidhiViewSet.as_view({"get": "list", "post": "create"})),
+    path("pratinidhi/<int:pk>/", views.pratinidhiViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("patra-ko-kisim/", views.patraKoKisimViewSet.as_view({"get": "list", "post": "create"})),
+    path("patra-ko-kisim/<int:pk>/", views.patraKoKisimViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("sakha-thapnuhos/", views.sakha_thapnuhosViewSet.as_view({"get": "list", "post": "create"})),
+    path("sakha-thapnuhos/<int:pk>/", views.sakha_thapnuhosViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("sadasya-thapnuhos/", views.sadasya_thapnuhosViewSet.as_view({"get": "list", "post": "create"})),
+    path("sadasya-thapnuhos/<int:pk>/", views.sadasya_thapnuhosViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+>>>>>>> jenish
 ]
 
 router = DefaultRouter()

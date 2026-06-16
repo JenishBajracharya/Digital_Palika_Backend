@@ -10,7 +10,8 @@ from .models import (
     MahilaIdentityCard,
     BalbalikaIdentityCard,
     ApangaIdentityCard,
-    JanmaDarta, mrituDarta,biwahaDarta, migration_suchana, fileBhitra, file_prakar, rayak_khand_no, file_record, file_chalani
+    JanmaDarta, mrituDarta,biwahaDarta, migration_suchana, fileBhitra, file_prakar, rayak_khand_no, file_record, 
+    file_chalani, karmachari, woda, pratinidhi,patraKoKisim,sakha_thapnuhos, sadasya_thapnuhos
    
 )
 
@@ -127,6 +128,12 @@ admin.site.register(file_prakar)
 admin.site.register(rayak_khand_no)
 admin.site.register(file_record)
 admin.site.register(file_chalani)
+admin.site.register(karmachari)
+admin.site.register(woda)
+admin.site.register(pratinidhi)
+admin.site.register(patraKoKisim)
+admin.site.register(sakha_thapnuhos)
+admin.site.register(sadasya_thapnuhos)
 
 
 

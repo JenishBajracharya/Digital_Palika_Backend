@@ -9,7 +9,7 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 from .models import MainCategory, Darta, Pariyojana, RayakNo
 
-from .models import MainCategory, JanmaDarta, mrituDarta,biwahaDarta, migration_suchana, fileBhitra, file_prakar, rayak_khand_no, file_record, file_chalani
+from .models import MainCategory, JanmaDarta, mrituDarta,biwahaDarta, migration_suchana, fileBhitra, file_prakar, rayak_khand_no, file_record, file_chalani, karmachari, woda, pratinidhi,patraKoKisim,sakha_thapnuhos, sadasya_thapnuhos
 
 
 from .serializers import (
@@ -29,6 +29,12 @@ from .serializers import (
     file_record,
     file_recordSerializer,
     file_chalaniSerializer,
+    karmachariSerializer,
+    wodaSerializer,
+    pratinidhiSerializer,
+    patraKoKisimSerializer,
+    sakha_thapnuhosSerializer,
+    sadasya_thapnuhosSerializer,
 )
 
 from .models import *
@@ -177,6 +183,35 @@ class ChalaniViewSet(viewsets.ModelViewSet):
 
     queryset = Chalani.objects.all()
     serializer_class = ChalaniSerializer
+
+
+class karmachariViewSet(viewsets.ModelViewSet):
+    queryset = karmachari.objects.all()
+    serializer_class = karmachariSerializer
+
+class wodaViewSet(viewsets.ModelViewSet):
+    queryset = woda.objects.all()
+    serializer_class = wodaSerializer
+
+class pratinidhiViewSet(viewsets.ModelViewSet):
+    queryset = pratinidhi.objects.all()
+    serializer_class = pratinidhiSerializer
+
+class patraKoKisimViewSet(viewsets.ModelViewSet):
+    queryset = patraKoKisim.objects.all()   
+    serializer_class = patraKoKisimSerializer
+
+
+class sakha_thapnuhosViewSet(viewsets.ModelViewSet):
+    queryset = sakha_thapnuhos.objects.all()
+    serializer_class = sakha_thapnuhosSerializer
+
+class sadasya_thapnuhosViewSet(viewsets.ModelViewSet):
+    queryset = sadasya_thapnuhos.objects.all() 
+    serializer_class = sadasya_thapnuhosSerializer    
+
+
+
 
     filter_backends = [
         DjangoFilterBackend,
