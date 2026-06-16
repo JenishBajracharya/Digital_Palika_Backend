@@ -38,6 +38,24 @@ urlpatterns = [
     
     path("file-chalani/", views.file_chalaniViewSet.as_view({"get": "list", "post": "create"})),
     path("file-chalani/<int:pk>/", views.file_chalaniViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("karmachari/", views.karmachariViewSet.as_view({"get": "list", "post": "create"})),
+    path("karmachari/<int:pk>/", views.karmachariViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+
+    path("woda/", views.wodaViewSet.as_view({"get": "list", "post": "create"})),
+    path("woda/<int:pk>/", views.wodaViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("pratinidhi/", views.pratinidhiViewSet.as_view({"get": "list", "post": "create"})),
+    path("pratinidhi/<int:pk>/", views.pratinidhiViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("patra-ko-kisim/", views.patraKoKisimViewSet.as_view({"get": "list", "post": "create"})),
+    path("patra-ko-kisim/<int:pk>/", views.patraKoKisimViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("sakha-thapnuhos/", views.sakha_thapnuhosViewSet.as_view({"get": "list", "post": "create"})),
+    path("sakha-thapnuhos/<int:pk>/", views.sakha_thapnuhosViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    
+    path("sadasya-thapnuhos/", views.sadasya_thapnuhosViewSet.as_view({"get": "list", "post": "create"})),
+    path("sadasya-thapnuhos/<int:pk>/", views.sadasya_thapnuhosViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
 ]
 
 
