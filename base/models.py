@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 from django.db import models
@@ -320,7 +321,7 @@ class migration_suchana(models.Model):
     applicants_name = models.CharField(max_length=255)
     application_date = models.DateField()
     citizen_no = models.CharField(max_length=255)
-    current_ward = models.IntegerField(max_length=20)
+    current_ward = models.IntegerField()
     verified = models.CharField(max_length=50)
     action = models.CharField(max_length=50)
 
@@ -338,7 +339,7 @@ class file_prakar(models.Model):
 
 class rayak_khand_no(models.Model):
     id = models.AutoField(primary_key=True)
-    rayak_khand_no = models.IntegerField(max_length=255)
+    rayak_khand_no = models.IntegerField()
     action = models.CharField(max_length=50)
 
 class file_record(models.Model):
@@ -486,5 +487,275 @@ class AarthikBarsa(models.Model):
     def __str__(self):
         return self.aarthik_barsa
     
+
+
+class Province(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class District(models.Model):
+    province = models.ForeignKey(
+        Province,
+        on_delete=models.CASCADE,
+        related_name="districts"
+    )
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        unique_together = ("province", "name")
+
+    def __str__(self):
+        return self.name
+
+
+class Municipality(models.Model):
+
+    MUNICIPALITY_TYPES = (
+        ("mahanagarpalika", "Mahanagarpalika"),
+        ("upamahanagarpalika", "Upa-Mahanagarpalika"),
+        ("nagarpalika", "Nagarpalika"),
+        ("gaupalika", "Gaupalika"),
+    )
+
+    district = models.ForeignKey(
+        District,
+        on_delete=models.CASCADE,
+        related_name="municipalities"
+    )
+
+    name = models.CharField(max_length=150)
+
+    municipality_type = models.CharField(
+        max_length=30,
+        choices=MUNICIPALITY_TYPES
+    )
+
+    def __str__(self):
+        return f"{self.name} ({self.get_municipality_type_display()})"
+
+
+class Ward(models.Model):
+    municipality = models.ForeignKey(
+        Municipality,
+        on_delete=models.CASCADE,
+        related_name="wards"
+    )
+
+    ward_no = models.PositiveIntegerField()
+
+    class Meta:
+        unique_together = ("municipality", "ward_no")
+
+    def __str__(self):
+        return f"{self.municipality.name} - Ward {self.ward_no}"
+    
     
 
+from django.db import models
+
+
+# =========================
+# 1. FARMER (USER ENTITY)
+# =========================
+class Farmer(models.Model):
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=15)
+    address = models.TextField(blank=True, null=True)
+    ward_no = models.IntegerField()
+
+    def __str__(self):
+        return self.name
+
+
+# =========================
+# 2. LAND / FARM FIELD
+# =========================
+class Land(models.Model):
+    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE, related_name="lands")
+    location = models.CharField(max_length=200)
+    area = models.FloatField(help_text="Area in ropani/hectare")
+    soil_type = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.location} - {self.farmer.name}"
+
+
+# =========================
+# 3. CROP MASTER
+# =========================
+class Crop(models.Model):
+    name = models.CharField(max_length=100)
+    season = models.CharField(max_length=50)  # summer, winter, monsoon
+    duration_days = models.IntegerField()
+    price_per_kg = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.name
+
+
+# =========================
+# 4. CROP PRODUCTION
+# =========================
+class CropProduction(models.Model):
+    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE)
+    land = models.ForeignKey(Land, on_delete=models.CASCADE)
+    crop = models.ForeignKey(Crop, on_delete=models.CASCADE)
+
+    planting_date = models.DateField()
+    expected_harvest_date = models.DateField()
+    quantity_produced = models.FloatField(null=True, blank=True)
+
+    STATUS_CHOICES = [
+        ("planted", "Planted"),
+        ("growing", "Growing"),
+        ("harvested", "Harvested"),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="planted")
+
+    def __str__(self):
+        return f"{self.crop.name} - {self.farmer.name}"
+
+
+# =========================
+# 5. INVENTORY (SEED, FERTILIZER, TOOL)
+# =========================
+class Inventory(models.Model):
+    ITEM_TYPES = [
+        ("seed", "Seed"),
+        ("fertilizer", "Fertilizer"),
+        ("tool", "Tool"),
+    ]
+
+    name = models.CharField(max_length=100)
+    item_type = models.CharField(max_length=20, choices=ITEM_TYPES)
+    quantity = models.FloatField()
+    unit = models.CharField(max_length=20)  # kg, pcs, liter
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    def __str__(self):
+        return self.name
+
+
+# =========================
+# 6. LIVESTOCK MODULE
+# =========================
+class Livestock(models.Model):
+    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE)
+
+    animal_type = models.CharField(max_length=50)  # cow, goat, buffalo
+    count = models.IntegerField()
+
+    health_status = models.CharField(max_length=100, default="healthy")
+    vaccination_done = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.animal_type} - {self.farmer.name}"
+
+
+# =========================
+# 7. SOIL ANALYSIS
+# =========================
+class SoilReport(models.Model):
+    land = models.ForeignKey(Land, on_delete=models.CASCADE)
+
+    ph_level = models.FloatField()
+    nitrogen = models.FloatField()
+    phosphorus = models.FloatField()
+    potassium = models.FloatField()
+
+    recommendation = models.TextField(blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+# =========================
+# 8. SALES / MARKET MODULE
+# =========================
+class Sale(models.Model):
+    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE)
+    crop = models.ForeignKey(Crop, on_delete=models.CASCADE)
+
+    quantity = models.FloatField()
+    price_per_kg = models.DecimalField(max_digits=10, decimal_places=2)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    sold_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.crop.name} - {self.farmer.name}"
+
+
+# =========================
+# 9. CROP DISEASE / PEST
+# =========================
+class CropDisease(models.Model):
+    crop = models.ForeignKey(Crop, on_delete=models.CASCADE)
+
+    name = models.CharField(max_length=100)
+    symptoms = models.TextField()
+    solution = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+# =========================
+# 10. WEATHER DATA (SMART FEATURE)
+# =========================
+class WeatherData(models.Model):
+    location = models.CharField(max_length=100)
+
+    temperature = models.FloatField()
+    humidity = models.FloatField()
+    condition = models.CharField(max_length=100)
+
+    recorded_at = models.DateTimeField(auto_now_add=True)
+
+
+# =========================
+# 11. RECOMMENDATION SYSTEM
+# =========================
+class Recommendation(models.Model):
+    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE)
+
+    crop_suggestion = models.TextField()
+    fertilizer_suggestion = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class DeviceToken(models.Model):
+    DEVICE_CHOICES = (
+        ('android', 'Android'),
+        ('ios', 'iOS'),
+        ('web', 'Web'),
+    )
+    
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='devices', null=True, blank=True)
+    fcm_token = models.TextField(unique=True)
+    device_type = models.CharField(max_length=10, choices=DEVICE_CHOICES, default='android')
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user.email if self.user else 'Guest'} - {self.device_type}"
+
+
+class NotificationLog(models.Model):
+    TARGET_CHOICES = (
+        ('broadcast', 'Broadcast to All'),
+        ('single', 'Single Device Test'),
+    )
+    
+    title = models.CharField(max_length=255)
+    body = models.TextField()
+    image = models.ImageField(upload_to='notifications/', null=True, blank=True)
+    target_type = models.CharField(max_length=15, choices=TARGET_CHOICES)
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

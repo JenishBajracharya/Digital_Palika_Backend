@@ -206,3 +206,149 @@ class AarthikBarsaSerializer(serializers.ModelSerializer):
         model = AarthikBarsa
         fields = "__all__"
 
+from rest_framework import serializers
+from .models import Province, District, Municipality, Ward
+
+
+class ProvinceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Province
+        fields = "__all__"
+
+
+class DistrictSerializer(serializers.ModelSerializer):
+    province_name = serializers.CharField(
+        source="province.name",
+        read_only=True
+    )
+
+    class Meta:
+        model = District
+        fields = "__all__"
+
+
+class MunicipalitySerializer(serializers.ModelSerializer):
+    district_name = serializers.CharField(
+        source="district.name",
+        read_only=True
+    )
+
+    class Meta:
+        model = Municipality
+        fields = "__all__"
+
+
+class WardSerializer(serializers.ModelSerializer):
+    municipality_name = serializers.CharField(
+        source="municipality.name",
+        read_only=True
+    )
+
+    class Meta:
+        model = Ward
+        fields = "__all__"
+
+from rest_framework import serializers
+from .models import (
+    Farmer, Land, Crop, CropProduction, Inventory, 
+    Livestock, SoilReport, Sale, CropDisease, WeatherData, Recommendation
+)
+
+class FarmerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Farmer
+        fields = '__all__'
+
+
+class LandSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Land
+        fields = '__all__'
+
+
+class CropSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Crop
+        fields = '__all__'
+
+
+class CropProductionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CropProduction
+        fields = '__all__'
+
+
+class InventorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inventory
+        fields = '__all__'
+
+
+class LivestockSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Livestock
+        fields = '__all__'
+
+
+class SoilReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SoilReport
+        fields = '__all__'
+
+
+class SaleSerializer(serializers.ModelSerializer):
+    # Optional auto-calculation of total price if not provided by the client
+    class Meta:
+        model = Sale
+        fields = '__all__'
+
+    def validate(self, data):
+        if not data.get('total_price'):
+            data['total_price'] = data['quantity'] * data['price_per_kg']
+        return data
+
+
+class CropDiseaseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CropDisease
+        fields = '__all__'
+
+
+class WeatherDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WeatherData
+        fields = '__all__'
+
+
+class RecommendationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recommendation
+        fields = '__all__'
+
+
+
+from .models import DeviceToken, NotificationLog, User
+
+class UserMinimalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email']
+
+class DeviceTokenSerializer(serializers.ModelSerializer):
+    user_detail = UserMinimalSerializer(source='user', read_only=True)
+
+    class Meta:
+        model = DeviceToken
+        fields = ['id', 'user', 'user_detail', 'fcm_token', 'device_type', 'is_active', 'updated_at']
+
+
+class BroadcastNotificationSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=255, required=True)
+    body = serializers.CharField(required=True)
+    image = serializers.ImageField(required=False, allow_null=True)
+
+
+class TestNotificationSerializer(serializers.Serializer):
+    fcm_token = serializers.CharField(required=True)
+    title = serializers.CharField(max_length=255, required=True)
+    body = serializers.CharField(required=True)
